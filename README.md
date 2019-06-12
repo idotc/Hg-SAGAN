@@ -115,9 +115,9 @@ OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=$gpuID th main.lua \
 
 
 ## Evaluation
-You may evaluate the PCKh score of your model on the MPII validation set. To get start, download our prediction `pred_multiscale_250.h5` to `./pretrained` from [Google Drive](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU), and run the MATLAB script `evaluation/eval_PCKh.m`. You'll get the following results
+You may evaluate the PCK@0.2 scores of your model on the LSP test set. To get start, download our prediction `pred_multiscale_1_best.h5` and `eval code` from [github](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU), and run the MATLAB script `transfer_pre_test.m`. You'll get the following results
 
 ```
-      Head , Shoulder , Elbow , Wrist , Hip , Knee  , Ankle , Mean , 
-name , 98.3 , 95.1 , 92.6 , 89.8 , 94.6 , 95.0 , 94.5 , 94.3
+name , Head , Shoulder , Elbow , Wrist , Hip , Knee  , Ankle , Mean , 
+score, 98.3 , 95.1     , 92.6  , 89.8  , 94.6, 95.0  , 94.5  , 94.3
 ```
