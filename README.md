@@ -1,11 +1,6 @@
-# Learning Feature Pyramids for Human Pose Estimation
+# Improving Human Pose Estimation with Self-Attention Generative Adversarial Networks
 
-Training and testing code for the paper 
-> **[Learning Feature Pyramids for Human Pose Estimation](https://arxiv.org/abs/1708.01101)**  
-> Wei Yang, Shuang Li, Wanli Ouyang, Hongsheng Li, Xiaogang Wang  
-> ICCV, 2017 
-
-This code is based on [stacked hourglass networks](https://github.com/anewell/pose-hg-train) and [fb.resnet.torch](https://github.com/facebook/fb.resnet.torch). Thanks to the authors. 
+This code is based on [Learning Feature Pyramids for Human Pose Estimation](https://github.com/bearpaw/PyraNet) and [fb.resnet.torch](https://github.com/facebook/fb.resnet.torch). Thanks to the authors. 
 
 ## Install
 
@@ -47,10 +42,10 @@ This code is based on [stacked hourglass networks](https://github.com/anewell/po
 ### Quick Start
 
 #### Testing from our pretrained model
-Download our pretrained model to `./pretrained` folder from [Google Drive](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU). Test on the MPII validation set by running the following command
+Download our pretrained model to `./pretrained` folder from [Baidu Drive](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU). Test on the MPII validation set by running the following command
 
 ```
-qlua main.lua -batchSize 1 -nGPU 1 -nStack 8 -minusMean true -loadModel pretrained/model_250.t7 -testOnly true -debug true
+qlua main.lua -batchSize 1 -nGPU 1 -nStack 4 -minusMean true -loadModel pretrained/model_250.t7 -testOnly true -debug true
 ```
 
 ![Example](data/example.png)
@@ -58,7 +53,7 @@ qlua main.lua -batchSize 1 -nGPU 1 -nStack 8 -minusMean true -loadModel pretrain
 For multi-scale testing, run
 
 ```
-qlua evalPyra.lua -batchSize 1 -nGPU 1 -nStack 8 -minusMean true -loadModel pretrained/model_250.t7 -testOnly true -debug true
+qlua evalPyra.lua -batchSize 1 -nGPU 1 -nStack 4 -minusMean true -loadModel pretrained/model_250.t7 -testOnly true -debug true
 ```
 
 **Note**: 
@@ -68,7 +63,7 @@ qlua evalPyra.lua -batchSize 1 -nGPU 1 -nStack 8 -minusMean true -loadModel pret
 
 #### Train a two-stack hourglass model 
 
-Train an example two-stack hourglass model on the MPII dataset with the proposed *Pyramids Residual Modules* (PRMs)
+Train an example two-stack hourglass model on the MPII dataset with the proposed script.
 
 ```
 sh ./experiments/mpii/hg-prm-stack2.sh 
@@ -76,24 +71,25 @@ sh ./experiments/mpii/hg-prm-stack2.sh
 
 ### Customize your own training and testing procedure
 
-A sample script for training on the MPII dataset with 8-stack hourglass model.
+A sample script for training on the MPII dataset with 4-stack hourglass model.
 
 ```bash
 #!/usr/bin/env sh
-expID=mpii/mpii_hg8   # snapshots and log file will save in checkpoints/$expID
+expID=mpii/hg_atten   # snapshots and log file will save in checkpoints/$expID
 dataset=mpii          # mpii | mpii-lsp | lsp |
 gpuID=0,1             # GPUs visible to program
 nGPU=2                # how many GPUs will be used to train the model
-batchSize=16          
-LR=6.7e-4
-netType=hg-prm        # network architecture
-nStack=2
-nResidual=1
-nThreads=4            # how many threads will be used to load data
+batchSize=6          
+LR=2.5e-4
+netType=hg-atten        # network architecture
+nStack=4
+nResidual=2
+nThreads=8            # how many threads will be used to load data
 minusMean=true
 nClasses=16
-nEpochs=200           
-snapshot=10           # save models for every $snapshot
+nEpochs=250           
+snapshot=2           # save models for every $snapshot
+nFeats=256
 
 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=$gpuID th main.lua \
    -dataset $dataset \
@@ -111,6 +107,7 @@ OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=$gpuID th main.lua \
    -nClasses $nClasses \
    -nEpochs $nEpochs \
    -snapshot $snapshot \
+   -nFeats $nFeats \
    # -resume checkpoints/$expID  \  # uncomment this line to resume training
    # -testOnly true \               # uncomment this line to test on validation data
    # -testRelease true \            # uncomment this line to test on test data (MPII dataset)
@@ -122,18 +119,5 @@ You may evaluate the PCKh score of your model on the MPII validation set. To get
 
 ```
       Head , Shoulder , Elbow , Wrist , Hip , Knee  , Ankle , Mean , 
-name , 97.41 , 96.16 , 91.10 , 86.88 , 90.05 , 86.00 , 83.89 , 90.27
-```
-
-
-## Citation
-If you find this code useful in your research, please consider citing:
-
-```
-@inproceedings{yang2017pyramid,
-    Title = {Learning Feature Pyramids for Human Pose Estimation},
-    Author = {Yang, Wei and Li, Shuang and Ouyang, Wanli and Li, Hongsheng and Wang, Xiaogang},
-    Booktitle = {arXiv preprint arXiv:1708.01101},
-    Year = {2017}
-}
+name , 98.3 , 95.1 , 92.6 , 89.8 , 94.6 , 95.0 , 94.5 , 94.3
 ```
