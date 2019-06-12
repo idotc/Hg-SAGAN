@@ -42,7 +42,7 @@ This code is based on [Learning Feature Pyramids for Human Pose Estimation](http
 ### Quick Start
 
 #### Testing from our pretrained model
-Download our pretrained model to `./pretrained` folder from [Baidu Drive](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU). Test on the MPII validation set by running the following command
+Download our pretrained model to `./pretrained` folder from [Baidu Drive(code:34jj)](https://pan.baidu.com/s/1Jsr1F7FmNobwQrh6gck1zg). Test on the MPII validation set by running the following command
 
 ```
 qlua main.lua -batchSize 1 -nGPU 1 -nStack 4 -minusMean true -loadModel pretrained/model_250.t7 -testOnly true -debug true
@@ -115,7 +115,7 @@ OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=$gpuID th main.lua \
 
 
 ## Evaluation
-You may evaluate the PCK@0.2 scores of your model on the LSP test set. To get start, download our prediction `pred_multiscale_1_best.h5` and `eval code` from [github](https://drive.google.com/open?id=0B63t5HSgY4SQbmJoRV9fOTBFTlU), and run the MATLAB script `transfer_pre_test.m`. You'll get the following results
+You may evaluate the PCK@0.2 scores of your model on the LSP test set. To get start, download our prediction `pred_multiscale_1_best.h5` and `eval code` from [github](https://github.com/idotc/evalLSP-test), and run the MATLAB script `transfer_pre_test.m`. You'll get the following results
 
 ```
 name , Head , Shoulder , Elbow , Wrist , Hip , Knee  , Ankle , Mean , 
