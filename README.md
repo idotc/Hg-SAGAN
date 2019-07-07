@@ -66,7 +66,7 @@ qlua evalPyra.lua -batchSize 1 -nGPU 1 -nStack 4 -minusMean true -loadModel pret
 Train an example two-stack hourglass model on the MPII dataset with the proposed script.
 
 ```
-sh ./experiments/mpii/hg-prm-stack2.sh 
+sh ./experiments/mpii/hg-atten-stack2.sh 
 ```
 
 ### Customize your own training and testing procedure
